@@ -11,6 +11,7 @@ using namespace std;
 #include <vector>
 #include <sstream>
 #include <stdlib.h>
+#include <bitset>
 
 /* This class reads in a MIPS assembly file and checks its syntax.  If
  * the file is syntactically correct, this class will retain a list 

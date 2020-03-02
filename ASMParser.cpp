@@ -1,7 +1,6 @@
 #include "ASMParser.h"
-#include<bitset>
 
-string intToBinary(int, int);
+
 
 
 ASMParser::ASMParser(string filename)
@@ -263,7 +262,7 @@ string ASMParser::encode(Instruction i)
   
   string encoding = "";
   Opcode op = i.getOpcode();
-  string eachopcode = opcodes.getOpcodeField(op);
+  //string eachopcode = opcodes.getOpcodeField(op);
   encoding.append(opcodes.getOpcodeField(op)); // this will get the opcdoe
 
   string test = i.getString();
@@ -297,7 +296,6 @@ string ASMParser::encode(Instruction i)
 
    case ITYPE: //opcode, rs, rt, 
 
-   
       rs = (bitset<5>(i.getRS())).to_string();
       encoding.append(rs); 
 
@@ -307,24 +305,20 @@ string ASMParser::encode(Instruction i)
       if (op == SRA) //if it's sra
       {
 
-      rd = (bitset<5>(i.getRD())).to_string();
-      encoding.append(rd);
+        rd = (bitset<5>(i.getRD())).to_string();
+        encoding.append(rd);
 
-      shamt = (bitset<5>(i.getImmediate())).to_string();
-      encoding.append(shamt);
+        shamt = (bitset<5>(i.getImmediate())).to_string();
+        encoding.append(shamt);
 
-      funct = opcodes.getFunctField(op);
-      encoding.append(funct);
+        funct = opcodes.getFunctField(op);
+        encoding.append(funct);
       
-      break;
+        break;
       }
-
-
-      
 
       imm = (bitset<16>(i.getImmediate())).to_string();
       encoding.append(imm);
-
 
       break;
 
@@ -333,10 +327,7 @@ string ASMParser::encode(Instruction i)
       imm = (bitset<26>(i.getImmediate())).to_string();
       encoding.append(imm);
 
-
-
       break;
 }
-
   return encoding;
 }

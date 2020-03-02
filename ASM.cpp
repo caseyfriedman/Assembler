@@ -23,10 +23,10 @@ int main(int argc, char *argv[])
 
   if(parser->isFormatCorrect() == false){
     cerr << "Format of input file is incorrect " << endl;
-    //exit(1); don't exit just yet...
+    exit(1); 
   }
 
-  Instruction i;
+  Instruction i; 
 
   //Iterate through instructions, printing each encoding.
   i = parser->getNextInstruction();

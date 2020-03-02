@@ -5,8 +5,6 @@ OpcodeTable::OpcodeTable()
 {
   myArray[ADD].name = "add";  myArray[ADD].numOps = 3;   myArray[ADD].rdPos = 0;  myArray[ADD].rsPos = 1;  myArray[ADD].rtPos = 2;   myArray[ADD].immPos = -1;  myArray[ADD].instType = RTYPE; myArray[ADD].op_field = "000000"; myArray[ADD].funct_field = "100000";
 
-
-//changed addi to 3 because it wasn't working, will need to change all of them
   myArray[ADDI].name = "addi"; myArray[ADDI].numOps = 3; myArray[ADDI].rdPos = -1; myArray[ADDI].rsPos = 1; myArray[ADDI].rtPos = 0; myArray[ADDI].immPos = 2; myArray[ADDI].instType = ITYPE; myArray[ADDI].op_field = "001000";
 
   myArray[MULT].name = "mult"; myArray[MULT].numOps = 2; myArray[MULT].rdPos = -1; myArray[MULT].rsPos = 0; myArray[MULT].rtPos = 1; myArray[MULT].immPos = 2; myArray[MULT].instType = RTYPE; myArray[MULT].op_field = "000000"; myArray[MULT].funct_field = "011000";
@@ -17,7 +15,7 @@ OpcodeTable::OpcodeTable()
 
   myArray[J].name = "j"; myArray[J].numOps = 1;  myArray[J].rdPos = -1;  myArray[J].rsPos = -1;  myArray[J].rtPos = -1;  myArray[J].immPos = 0;  myArray[J].instType = JTYPE;   myArray[J].op_field = "000010"; myArray[J].immLabel = true;
  
-  myArray[LB].name = "lb"; myArray[LB].numOps = 3;  myArray[LB].rdPos = -1;  myArray[LB].rsPos = 2;  myArray[LB].rtPos = 0;  myArray[LB].immPos = 1;  myArray[LB].instType = ITYPE;   myArray[LB].op_field = "001100";
+  myArray[LB].name = "lb"; myArray[LB].numOps = 3;  myArray[LB].rdPos = -1;  myArray[LB].rsPos = 2;  myArray[LB].rtPos = 0;  myArray[LB].immPos = 1;  myArray[LB].instType = ITYPE;   myArray[LB].op_field = "100000";
  
   myArray[SLT].name = "slt"; myArray[SLT].numOps = 3;  myArray[SLT].rdPos = 0;  myArray[SLT].rsPos = 1;  myArray[SLT].rtPos = 2;  myArray[SLT].immPos = -1;  myArray[SLT].instType = RTYPE; myArray[SLT].op_field = "000000";   myArray[SLT].funct_field = "101010";
                                    
