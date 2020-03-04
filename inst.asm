@@ -1,4 +1,4 @@
-j label
+j 0x123123
 add $3, $4, $8
 addi $1, $2, 100
 mult $2, $3

@@ -1,6 +1,6 @@
 #include "ASMParser.h"
-
-
+#include <sstream>
+#include <cctype>
 
 
 ASMParser::ASMParser(string filename)
@@ -11,6 +11,8 @@ ASMParser::ASMParser(string filename)
   myFormatCorrect = true;
 
   myLabelAddress = 0x400000;
+
+  int msb;
 
   ifstream in;
   in.open(filename.c_str());
@@ -231,18 +233,95 @@ bool ASMParser::getOperands(Instruction &i, Opcode o,    //pretty sure the instr
 
   }
 
+
   if(imm_p != -1){
     if(isNumberString(operand[imm_p])){  // does it have a numeric immediate field?
       imm = cvtNumString2Number(operand[imm_p]);
+     
       if(((abs(imm) & 0xFFFF0000)<<1))  // too big a number to fit
-	return false;
+	       return false;
     }
     else{ 
       if(opcodes.isIMMLabel(o)){  // Can the operand be a label?
 	// Assign the immediate field an address
 	imm = myLabelAddress;
-	myLabelAddress += 4;  // increment the label generator
-      }
+  
+
+//need to do an isnumberhex check
+
+if((operand[imm_p].compare(0,2,"0x") == 0)){
+
+
+    imm = stoi(operand[imm_p],0,16); //this is the 32 bit address
+
+
+
+
+//but now we need to actually get the hex number,
+  //it's in operand[imm_p] so we gotta convert it to use below
+  
+  int shift = imm << 2; //shift left 
+
+
+  imm = (myLabelAddress + 4 & 0xF00000); // to get the most significant bits of the label (pc counter)
+
+  imm = imm >> 20;  //to shift the unsignificant bits off
+
+  string bits = bitset<4>(imm).to_string(); //the actual bits
+
+
+  string final = bits;
+
+  
+  bits.append(bitset<28>(shift).to_string());
+
+  
+
+    imm = stoi(bits,0,2);
+
+
+
+
+} else {
+
+
+  //cout << bits << endl;
+  
+
+
+
+
+  long temp;
+
+  long newlabel = bitset<32>(myLabelAddress).to_ulong();
+
+  temp = newlabel;
+
+
+  temp = temp << 2;
+    
+    temp = temp >> 4;
+
+    
+
+    imm = temp;
+
+
+
+
+
+
+
+
+
+
+//need to set the immediate
+
+
+
+	  // increment the label generator
+      } myLabelAddress += 4;
+    }
       else  // There is an error
 	return false;
     }
@@ -275,7 +354,6 @@ string ASMParser::encode(Instruction i)
   switch (opcodes.getInstType(op)) //need to handle sra
   {
     case RTYPE:        //r type means opcode + rs + rt + rd + shamt + funct
-      //string rs = intToBinary(i.getRS(),5);
       rs = (bitset<5>(i.getRS())).to_string();
       encoding.append(rs); //this gives us a string but we want the 6 number binary 
 
@@ -324,10 +402,14 @@ string ASMParser::encode(Instruction i)
 
    case JTYPE:
 
+  
+      //cout << bitset<26>(myLabelAddress) << endl;
+      //cout << i.getImmediate() << endl;
       imm = (bitset<26>(i.getImmediate())).to_string();
       encoding.append(imm);
 
       break;
 }
+
   return encoding;
 }
